@@ -10,7 +10,6 @@ load_dotenv()
 lgbot_token = os.getenv('discord_token')
 client = commands.Bot(command_prefix='!')
 
-
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
@@ -18,54 +17,54 @@ async def on_ready():
         roller.rolagens_dict = json.load(arquivo)
         print(roller.rolagens_dict)
 
-
 @client.command()
 async def scryfall(ctx, *args):
     carta = ' '.join(args)
-    busca_carta = scryfall_getter.get_card(str(carta))
-    await ctx.send(busca_carta)
+    imagem,preco = scryfall_getter.get_card(str(carta))
+    await ctx.send(f'{imagem}'
+                   f'\n> ```$ {preco}```')
 
 
 @client.command()
-async def r(ctx, conteudo, nome=None):
+async def r(ctx, conteudo, *args):
     try:
         a, b, c, d = roller.limpar_string(conteudo)
         rolagem = roller.Rolagem(a, b, c, d)
         rolagem.rolar()
-        if nome:
+        nome = ''
+        nome = ' '.join(args)
+
+        if nome != '':
             roller.rolagem_dict[nome] = rolagem
             roller.rolagens_dict[nome] = rolagem.to_dict()
             await ctx.send(f'{ctx.message.author.mention} rolou:\n'
-                           f'```'
-                           f'{conteudo}:\n'
-                           f'Rolagens {rolagem.resultados}\n'
-                           f'Total: {rolagem.total}'
-                           f'```')
+                           f'>>> {conteudo}:'
+                           f'\nRolagens {rolagem.resultados}'
+                           f'\nTotal: {rolagem.total}')
         else:
             await ctx.send(f'{ctx.message.author.mention} rolou:\n'
-                           f'```'
-                           f'{conteudo}:\n'
-                           f'Rolagens {rolagem.resultados}\n'
-                           f'Total: {rolagem.total}'
-                           f'```')
+                           f'>>> {conteudo}:'
+                           f'\nRolagens {rolagem.resultados}'
+                           f'\nTotal: {rolagem.total}'
+                           f'')
     except:
         await ctx.send(f'Deu ruim amigo, checa a sintaxe do comando pfv.')
 
 
 @client.command()
-async def rh(ctx, nome_rolada):
-    #rolagem = roller.rolagem_dict[nome_rolada]
+async def rh(ctx, *args):
+    nome_rolada = ''
+    nome_rolada = ' '.join(args)
     rolagem_dict = roller.rolagens_dict[nome_rolada]
     rolagem = roller.Rolagem(rolagem_dict["quantidade"], rolagem_dict["face"], rolagem_dict["vantagem"],
                               rolagem_dict["modificador"])
     rolagem.rolar()
     await ctx.send(f'{ctx.message.author.mention} rolou:\n'
-                   f'```{nome_rolada}:\n'
+                   f'>>> {nome_rolada}:\n'
                    f'{rolagem_dict["quantidade"]}d{rolagem_dict["face"]}h{rolagem_dict["vantagem"]}'
                    f'+{rolagem_dict["modificador"]}:\n'
                    f'Rolagens {rolagem.resultados}\n'
-                   f'Total: {rolagem.total}```')
-
+                   f'Total: {rolagem.total}')
 
 @client.command()
 async def rsave(ctx):

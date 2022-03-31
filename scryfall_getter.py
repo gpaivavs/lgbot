@@ -8,4 +8,8 @@ def get_card(cardname=''):
     response_json = response.json()
     imagens = response_json['image_uris']
     large = imagens['large']
-    return large
+
+    prices = response_json["prices"]
+    usd = prices["usd"]
+    return large,usd
+
