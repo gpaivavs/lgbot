@@ -1,0 +1,26 @@
+{
+    "teste": {
+        "quantidade": 1,
+        "face": 20,
+        "vantagem": 0,
+        "modificador": 0
+    },
+    "vantagem": {
+        "quantidade": 2,
+        "face": 20,
+        "vantagem": 0,
+        "modificador": 0
+    },
+    "ataqueVantagem": {
+        "quantidade": 2,
+        "face": 20,
+        "vantagem": 1,
+        "modificador": 12
+    },
+        "naMarra": {
+        "quantidade": 20,
+        "face": 8,
+        "vantagem": 0,
+        "modificador": 0
+    }
+}
