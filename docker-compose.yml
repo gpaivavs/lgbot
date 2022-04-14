@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  lgbot:
+    build: .
+    environment:
+      discord_token: ''
+    volumes:
+      - '$PWD/src:/app/src'

@@ -1,12 +1,10 @@
 import os
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 import roller
 import scryfall_getter
 import json
 
-load_dotenv()
 lgbot_token = os.getenv('discord_token')
 client = commands.Bot(command_prefix='!')
 
@@ -85,6 +83,5 @@ async def helpme(ctx):
                 "!rsave will commit all saved rolls to a file for posterity.\n" \
                 "```"
     await ctx.send(help_text)
-
 
 client.run(lgbot_token)
